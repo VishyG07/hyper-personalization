@@ -33,6 +33,10 @@ st.markdown("""
 .block-container{padding-top:1.5rem !important}
 .section-header{background:#1a1a2e;color:white;padding:14px 20px;
   border-radius:10px;margin-bottom:16px}
+/* Force dark text in white content areas - targeted */
+.stMarkdown p, .stMarkdown div, .stMarkdown span {color:#2d3748}
+[data-testid="metric-container"] label {color:#718096 !important}
+[data-testid="metric-container"] [data-testid="metric-value"] {color:#2d3748 !important}
 #MainMenu{visibility:hidden}footer{visibility:hidden}header{visibility:hidden}
 </style>
 """, unsafe_allow_html=True)
@@ -284,7 +288,14 @@ elif page == "CLV Matrix":
                "Q4: Dependent":"Low CLV · High Discount → Wean off discounts"}
         qbg={"Q1: Premium":"#e3f2fd","Q2: At-Risk":"#fff8e1","Q3: Stable":"#f5f5f5","Q4: Dependent":"#ffebee"}
         for q,n in qc.items():
-            st.markdown(f'<div style="background:{qbg.get(q,"#fff")};border-radius:8px;padding:12px;margin-bottom:8px;border-left:4px solid {QCOL.get(q,"#999")}"><b>{q}</b><br><span style="font-size:22px;font-weight:800">{n}</span> customers<br><span style="font-size:11px;color:#888">{qdesc.get(q,"")}</span></div>',unsafe_allow_html=True)
+            bg=qbg.get(q,"#fff"); bc=QCOL.get(q,"#999"); desc=qdesc.get(q,"")
+            st.markdown(f'''<div style="background:{bg};border-radius:8px;padding:14px;
+            margin-bottom:10px;border-left:5px solid {bc}">
+            <div style="font-size:14px;font-weight:700;color:#1a1a2e">{q}</div>
+            <div style="font-size:26px;font-weight:800;color:#1a1a2e;margin:4px 0">{n}
+            <span style="font-size:14px;font-weight:400;color:#444"> customers</span></div>
+            <div style="font-size:11px;color:#555">{desc}</div>
+            </div>''', unsafe_allow_html=True)
 
 # ══ PAGE 5: CHURN PREDICTION ══════════════════════════════════════
 elif page == "Churn Prediction":
@@ -503,7 +514,7 @@ elif page == "Customer Lookup":
     risk=("🔴 High Risk" if row["Churn_Prob"]>0.6 else
           "🟡 Medium Risk" if row["Churn_Prob"]>0.3 else "🟢 Low Risk")
 
-    st.markdown(f'<div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:16px"><div style="display:flex;align-items:center;gap:16px;margin-bottom:20px"><div style="width:60px;height:60px;border-radius:50%;background:{col};display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:800">{selected[:2].upper()}</div><div><div style="font-size:20px;font-weight:700">{selected}</div><span style="background:{col};color:white;padding:3px 12px;border-radius:12px;font-size:12px;font-weight:600">{seg}</span> &nbsp; <span style="font-size:12px;color:#718096">RFM Score: {int(row["RFM_Score"])} · {row["Preferred_Category"]} · {row["Tenure_Years"]:.1f} yrs</span></div></div></div>',unsafe_allow_html=True)
+    st.markdown(f'<div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:16px"><div style="display:flex;align-items:center;gap:16px;margin-bottom:20px"><div style="width:60px;height:60px;border-radius:50%;background:{col};display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:800">{selected[:2].upper()}</div><div><div style="font-size:20px;font-weight:700;color:#1a1a2e">{selected}</div><span style="background:{col};color:white;padding:3px 12px;border-radius:12px;font-size:12px;font-weight:600">{seg}</span> &nbsp; <span style="font-size:12px;color:#444">RFM Score: {int(row["RFM_Score"])} · {row["Preferred_Category"]} · {row["Tenure_Years"]:.1f} yrs</span></div></div></div>',unsafe_allow_html=True)
 
     c1,c2,c3=st.columns(3)
     c1.metric("Customer LTV",  f"${row['CLV']:,.0f}")
