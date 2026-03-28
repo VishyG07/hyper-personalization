@@ -446,16 +446,16 @@ elif page == "AI Optimizer":
             st.info("👈 Set parameters and click **▶ Run AI Optimization**. Results update every time.")
 
 # ══ PAGE 7: STRATEGY SIMULATION (LIVE) ═══════════════════════════
-elif page == "Strategy Simulation":
-    st.markdown('<div class="section-header"><b style="font-size:18px">⚡ Strategy Simulation — Live</b><br><span style="font-size:12px;opacity:.7">Adjust parameters — results recalculate instantly</span></div>', unsafe_allow_html=True)
+    elif page == "Strategy Simulation":
+        st.markdown('<div class="section-header"><b style="font-size:18px">⚡ Strategy Simulation — Live</b><br><span style="font-size:12px;opacity:.7">Adjust parameters — results recalculate instantly</span></div>', unsafe_allow_html=True)
 
-    col_s,col_r=st.columns([1,2])
-    with col_s:
-        st.markdown("#### Parameters")
-        s_disc  =st.slider("Discount %",    0, 50, 20, 1)
-        s_uplift=st.slider("Demand Uplift %", 0, 50, 15, 1)
-        s_n     =st.slider("Customers",    50, 793, 200, 25)
-        st.info(f"**{s_disc}% discount** generates **{s_uplift}% more** demand")
+        col_s,col_r=st.columns([1,2])
+        with col_s:
+            st.markdown("#### Parameters")
+            s_disc  =st.slider("Discount %",    0, 50, 20, 1)
+            s_uplift=st.slider("Demand Uplift %", 0, 50, 15, 1)
+            s_n     =st.slider("Customers",    50, 793, 200, 25)
+            st.info(f"**{s_disc}% discount** generates **{s_uplift}% more** demand")
 
 with col_r:
     samp2 = dc.sample(n=min(s_n, len(dc)), random_state=SEED)
