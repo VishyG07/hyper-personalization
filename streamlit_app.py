@@ -470,7 +470,13 @@ elif page == "Strategy Simulation":
             return round(r2,2),round(p2,2)
 
         r1,p1=calc(disc,uplift)
-        r2,p2=calc(disc*0.5,max(uplift*0.85,1.0))
+       half_disc = disc * 0.5
+
+# Fix: don't reduce uplift when discount is zero
+if disc == 0:
+    r2, p2 = calc(0, uplift)
+else:
+    r2, p2 = calc(half_disc, max(uplift*0.85, 1.0))
         r3,p3=calc(0.05,1.12)
         r4,p4=calc(0.00,1.12)
 
