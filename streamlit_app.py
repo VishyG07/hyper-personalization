@@ -472,7 +472,7 @@ elif page == "Strategy Simulation":
             p2 += rev - aov * (1 - bm) - aov * u * d
         return round(r2, 2), round(p2, 2)
 
-            r1, p1 = calc(disc, uplift)
+    r1, p1 = calc(disc, uplift)
 
             # ✅ FIXED LOGIC
             half_disc = disc * 0.5
