@@ -483,7 +483,7 @@ with col_r:
 
     r3, p3 = calc(0.05, 1.12)
     r4, p4 = calc(0.00, 1.12)
-        labels=[f"Your Setting ({s_disc}%)",f"Half Disc ({s_disc//2}%)","5% Bundle","AI No-Discount"]
+    labels=[f"Your Setting ({s_disc}%)",f"Half Disc ({s_disc//2}%)","5% Bundle","AI No-Discount"]
         profits=[p1,p2,p3,p4]; revenues=[r1,r2,r3,r4]
         colors_strat=["#F44336","#FF9800","#4CAF50","#2196F3"]
         best_idx=profits.index(max(profits))
