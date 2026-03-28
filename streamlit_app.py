@@ -447,65 +447,52 @@ elif page == "AI Optimizer":
 
 # ══ PAGE 7: STRATEGY SIMULATION (LIVE) ═══════════════════════════
 elif page == "Strategy Simulation":
-    st.markdown('<div class="section-header"><b style="font-size:18px">⚡ Strategy Simulation — Live</b><br><span style="font-size:12px;opacity:.7">Adjust parameters — results recalculate instantly</span></div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header"><b style="font-size:18px">⚡ Strategy Simulation — Live</b></div>', unsafe_allow_html=True)
 
-    col_s,col_r=st.columns([1,2])
+    col_s, col_r = st.columns([1, 2])
+
     with col_s:
-        st.markdown("#### Parameters")
-        s_disc  =st.slider("Discount %",    0, 50, 20, 1)
-        s_uplift=st.slider("Demand Uplift %", 0, 50, 15, 1)
-        s_n     =st.slider("Customers",    50, 793, 200, 25)
-        st.info(f"**{s_disc}% discount** generates **{s_uplift}% more** demand")
+        s_disc = st.slider("Discount %", 0, 50, 20, 1)
+        s_uplift = st.slider("Demand Uplift %", 0, 50, 15, 1)
+        s_n = st.slider("Customers", 50, 793, 200, 25)
 
-with col_r:
-    samp2 = dc.sample(n=min(s_n, len(dc)), random_state=SEED)
-    disc = s_disc / 100
-    uplift = 1 + s_uplift / 100
+    with col_r:
+        samp2 = dc.sample(n=min(s_n, len(dc)), random_state=SEED)
+        disc = s_disc / 100
+        uplift = 1 + s_uplift / 100
 
-    def calc(d, u):
-        r2 = p2 = 0
-        for _, r in samp2.iterrows():
-            aov = max(r["AOV"], 1)
-            bm = r["Avg_Margin_Pct"] / 100
-            rev = aov * u * (1 - d)
-            r2 += rev
-            p2 += rev - aov * (1 - bm) - aov * u * d
-        return round(r2, 2), round(p2, 2)
+        def calc(d, u):
+            r2 = p2 = 0
+            for _, r in samp2.iterrows():
+                aov = max(r["AOV"], 1)
+                bm = r["Avg_Margin_Pct"] / 100
+                rev = aov * u * (1 - d)
+                r2 += rev
+                p2 += rev - aov * (1 - bm) - aov * u * d
+            return round(r2, 2), round(p2, 2)
 
-    r1, p1 = calc(disc, uplift)
+        r1, p1 = calc(disc, uplift)
 
-     # FIXED LOGIC
-    half_disc = disc * 0.5
-    if disc == 0:
-        r2, p2 = calc(0, uplift)
-    else:
-        r2, p2 = calc(half_disc, max(uplift * 0.85, 1.0))
+        half_disc = disc * 0.5
+        if disc == 0:
+            r2, p2 = calc(0, uplift)
+        else:
+            r2, p2 = calc(half_disc, max(uplift * 0.85, 1.0))
 
         r3, p3 = calc(0.05, 1.12)
         r4, p4 = calc(0.00, 1.12)
-        labels=[f"Your Setting ({s_disc}%)",f"Half Disc ({s_disc//2}%)","5% Bundle","AI No-Discount"]
-        profits=[p1,p2,p3,p4]; revenues=[r1,r2,r3,r4]
-        colors_strat=["#F44336","#FF9800","#4CAF50","#2196F3"]
-        best_idx=profits.index(max(profits))
 
-        m1,m2,m3,m4=st.columns(4)
-        for col_w,lbl,pv,rv in zip([m1,m2,m3,m4],labels,profits,revenues):
-            col_w.metric(lbl,f"${pv:,.0f}","★ BEST" if pv==max(profits) else f"Rev ${rv:,.0f}")
+        labels = [
+            f"Your Setting ({s_disc}%)",
+            f"Half Disc ({s_disc/2:.0f}%)",
+            "5% Bundle",
+            "AI No-Discount"
+        ]
 
-        fig=make_subplots(rows=1,cols=2,subplot_titles=["Total Profit","Total Revenue"])
-        fig.add_bar(x=labels,y=profits,marker_color=colors_strat,
-            text=[f"${v:,.0f}" for v in profits],textposition="outside",row=1,col=1)
-        fig.add_bar(x=labels,y=revenues,marker_color=colors_strat,
-            text=[f"${v:,.0f}" for v in revenues],textposition="outside",row=1,col=2)
-        fig.add_hline(y=0,line_dash="dash",line_color="black",row=1,col=1)
-        fig.update_layout(showlegend=False,height=380)
-        st.plotly_chart(fig,use_container_width=True)
+        profits = [p1, p2, p3, p4]
+        revenues = [r1, r2, r3, r4]
 
-        ai_vs=((p4-p1)/abs(p1)*100) if p1!=0 else 0
-        if ai_vs>0:
-            st.success(f"✅ AI No-Discount generates **{ai_vs:+.1f}%** more profit than your {s_disc}% discount setting on {s_n} customers.")
-        else:
-            st.warning(f"⚠️ At low discount levels, strategies perform similarly. AI advantage is largest when discount > {BREAKEVEN:.0%}.")
+        st.bar_chart(profits)
 
 # ══ PAGE 8: CUSTOMER LOOKUP ═══════════════════════════════════════
 elif page == "Customer Lookup":
