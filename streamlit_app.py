@@ -492,7 +492,23 @@ elif page == "Strategy Simulation":
         profits = [p1, p2, p3, p4]
         revenues = [r1, r2, r3, r4]
 
-        st.bar_chart(profits)
+        fig = go.Figure(go.Bar(
+    x=labels,
+    y=profits,
+    marker_color=["#F44336", "#FF9800", "#4CAF50", "#2196F3"],
+    text=[f"${v:,.0f}" for v in profits],
+    textposition="outside"
+))
+
+fig.add_hline(y=0, line_dash="dash", line_color="black")
+
+fig.update_layout(
+    title="Strategy Profit Comparison",
+    showlegend=False,
+    height=350
+)
+
+st.plotly_chart(fig, use_container_width=True)
 
 # ══ PAGE 8: CUSTOMER LOOKUP ═══════════════════════════════════════
 elif page == "Customer Lookup":
