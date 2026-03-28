@@ -457,51 +457,32 @@ elif page == "Strategy Simulation":
         s_n     =st.slider("Customers",    50, 793, 200, 25)
         st.info(f"**{s_disc}% discount** generates **{s_uplift}% more** demand")
 
-    with col_r:
-        samp2=dc.sample(n=min(s_n,len(dc)),random_state=SEED)
-        disc=s_disc/100; uplift=1+s_uplift/100
+   with col_r:
+    samp2 = dc.sample(n=min(s_n, len(dc)), random_state=SEED)
+    disc = s_disc / 100
+    uplift = 1 + s_uplift / 100
 
-        def calc(d,u):
-            r2=p2=0
-            for _,r in samp2.iterrows():
-                aov=max(r["AOV"],1); bm=r["Avg_Margin_Pct"]/100
-                rev=aov*u*(1-d)
-                r2+=rev; p2+=rev-aov*(1-bm)-aov*u*d
-            return round(r2,2),round(p2,2)
+    def calc(d, u):
+        r2 = p2 = 0
+        for _, r in samp2.iterrows():
+            aov = max(r["AOV"], 1)
+            bm = r["Avg_Margin_Pct"] / 100
+            rev = aov * u * (1 - d)
+            r2 += rev
+            p2 += rev - aov * (1 - bm) - aov * u * d
+        return round(r2, 2), round(p2, 2)
 
-        r1,p1=calc(disc,uplift)
-       with col_r:
-    samp2=dc.sample(n=min(s_n,len(dc)),random_state=SEED)
-    disc=s_disc/100
-    uplift=1+s_uplift/100
+    r1, p1 = calc(disc, uplift)
 
-    def calc(d,u):
-        r2=p2=0
-        for _,r in samp2.iterrows():
-            aov=max(r["AOV"],1); bm=r["Avg_Margin_Pct"]/100
-            rev=aov*u*(1-d)
-            r2+=rev; p2+=rev-aov*(1-bm)-aov*u*d
-        return round(r2,2),round(p2,2)
-
-    r1,p1 = calc(disc, uplift)
-
-    # ✅ FIXED BLOCK (aligned properly)
+    # ✅ FIXED LOGIC
     half_disc = disc * 0.5
     if disc == 0:
         r2, p2 = calc(0, uplift)
     else:
-        r2, p2 = calc(half_disc, max(uplift*0.85, 1.0))
+        r2, p2 = calc(half_disc, max(uplift * 0.85, 1.0))
 
-    r3,p3 = calc(0.05,1.12)
-    r4,p4 = calc(0.00,1.12)
-
-# Fix: don't reduce uplift when discount is zero
-if disc == 0:
-    r2, p2 = calc(0, uplift)
-else:
-    r2, p2 = calc(half_disc, max(uplift*0.85, 1.0))
-        r3,p3=calc(0.05,1.12)
-        r4,p4=calc(0.00,1.12)
+    r3, p3 = calc(0.05, 1.12)
+    r4, p4 = calc(0.00, 1.12)
 
         labels=[f"Your Setting ({s_disc}%)",f"Half Disc ({s_disc//2}%)","5% Bundle","AI No-Discount"]
         profits=[p1,p2,p3,p4]; revenues=[r1,r2,r3,r4]
