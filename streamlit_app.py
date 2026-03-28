@@ -457,7 +457,7 @@ elif page == "Strategy Simulation":
         s_n     =st.slider("Customers",    50, 793, 200, 25)
         st.info(f"**{s_disc}% discount** generates **{s_uplift}% more** demand")
 
-   with col_r:
+with col_r:
     samp2 = dc.sample(n=min(s_n, len(dc)), random_state=SEED)
     disc = s_disc / 100
     uplift = 1 + s_uplift / 100
