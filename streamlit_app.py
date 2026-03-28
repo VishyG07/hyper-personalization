@@ -463,8 +463,8 @@ with col_r:
     uplift = 1 + s_uplift / 100
 
     def calc(d, u):
-    r2 = p2 = 0
-    for _, r in samp2.iterrows():
+        r2 = p2 = 0
+        for _, r in samp2.iterrows():
             aov = max(r["AOV"], 1)
             bm = r["Avg_Margin_Pct"] / 100
             rev = aov * u * (1 - d)
