@@ -462,7 +462,7 @@ with col_r:
     disc = s_disc / 100
     uplift = 1 + s_uplift / 100
 
-       def calc(d, u):
+    def calc(d, u):
         r2 = p2 = 0
         for _, r in samp2.iterrows():
             aov = max(r["AOV"], 1)
