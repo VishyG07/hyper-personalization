@@ -476,9 +476,9 @@ with col_r:
 
      # FIXED LOGIC
     half_disc = disc * 0.5
-     if disc == 0:
-         r2, p2 = calc(0, uplift)
-     else:
+    if disc == 0:
+        r2, p2 = calc(0, uplift)
+    else:
         r2, p2 = calc(half_disc, max(uplift * 0.85, 1.0))
 
         r3, p3 = calc(0.05, 1.12)
