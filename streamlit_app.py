@@ -474,12 +474,12 @@ with col_r:
 
     r1, p1 = calc(disc, uplift)
 
-        # FIXED LOGIC
-        half_disc = disc * 0.5
-        if disc == 0:
-            r2, p2 = calc(0, uplift)
-        else:
-            r2, p2 = calc(half_disc, max(uplift * 0.85, 1.0))
+     # FIXED LOGIC
+    half_disc = disc * 0.5
+     if disc == 0:
+         r2, p2 = calc(0, uplift)
+     else:
+        r2, p2 = calc(half_disc, max(uplift * 0.85, 1.0))
 
         r3, p3 = calc(0.05, 1.12)
         r4, p4 = calc(0.00, 1.12)
