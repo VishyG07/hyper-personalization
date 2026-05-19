@@ -1,7 +1,7 @@
 """
 Hyper-Personalization vs Profitability
 Complete Streamlit Prototype — Clean Version
-Khushi Garg | PGDM RBA 2
+Vishwaroop Galgali | PGDM RBA 2
 """
 import warnings; warnings.filterwarnings("ignore")
 import os, random
