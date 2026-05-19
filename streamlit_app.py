@@ -122,7 +122,7 @@ with st.sidebar:
         "🎯  AI Optimizer","⚡  Strategy Simulation","🔍  Customer Lookup"],
         label_visibility="collapsed")
     st.markdown("---")
-    st.markdown("<div style='font-size:11px;color:rgba(255,255,255,.4)'><b style='color:rgba(255,255,255,.7)'>Vishwaroop Galgali</b><br>PGDM RBA 2<br>Dr. Farzan Ghadially<br>Dr. Chandravadan Goritiyal<br><br>Superstore 2014-2017<br>9,994 txns · 793 customers</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size:11px;color:rgba(255,255,255,.4)'><b style='color:rgba(255,255,255,.7)'>Vishwaroop Galgali</b><br>PGDM RBA 2<br>Dr. Farzan Ghadially<br><br>Superstore 2014-2017<br>9,994 txns · 793 customers</div>", unsafe_allow_html=True)
 
 page = page.split("  ")[1].strip()
 
